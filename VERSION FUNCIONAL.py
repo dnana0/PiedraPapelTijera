@@ -25,7 +25,7 @@ def piedra_papel_tijera(puntosplayer, puntoscpu, trampas):
     if puntosplayer==2 and trampas: #Si estamos a un punto de ganar y la opción de trampas está activada, la CPU hará trampas y cambiará su decisión a una que gana a la nuestra.
         print("---(La CPU va a hacer trampas)---","\n(Iba a jugar", elecciones[cpuchoice], end=". ")#Informamos de cuando hace trampas
         cpuchoice = (selec%4)+1
-        print("Ha cambiado a", elecciones[cpuchoice], end=")")
+        print("Ha cambiado a", elecciones[cpuchoice], end=")\n")
 
     print("\nHas jugado", elecciones[selec])
     print("La CPU ha jugado", elecciones[cpuchoice])
@@ -56,4 +56,4 @@ def volver_a_jugar(puntosplayer, puntoscpu, trampas):
         print("No te he entendido")
         volver_a_jugar(puntosplayer, puntoscpu, trampas)
 
-piedra_papel_tijera(puntosplayer, puntoscpu, trampas) # LLamamos a la función del juego por primera vez. Nos traemos los valores de puntuación y las trampas
+piedra_papel_tijera(puntosplayer, puntoscpu, trampas) # Llamamos a la función del juego por primera vez. Nos traemos los valores de puntuación y las trampas
