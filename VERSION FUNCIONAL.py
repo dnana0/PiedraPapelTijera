@@ -5,6 +5,7 @@ elecciones=["piedra", "spock", "papel", "lagarto", "tijera"] #Esta lista tiene s
 puntosplayer=0 #La puntuación. Ambos empezamos en 0.
 puntoscpu=0
 trampas=True #Creamos una variable que determinará si la CPU hace trampas o no
+
 def piedra_papel_tijera(puntosplayer, puntoscpu, trampas):
     while puntosplayer < 3 and puntoscpu < 3:
         selec=(input("¿Que vas a jugar? \n")).casefold() #Ponemos el texto en minusculas para que coincida con la lista.
@@ -14,40 +15,42 @@ def piedra_papel_tijera(puntosplayer, puntoscpu, trampas):
                 trampas=False
                 print("Has desactivado las trampas")
         elif selec == "tijeras":   selec="tijera" #para evitar confusiones
-        elif selec not in elecciones and selec != "bomba":
+        elif selec not in elecciones and selec != "bomba": 
             if selec=="surrender": puntoscpu=3
             else:
                 print("No te he entendido") # para cualquier valor introducido que no este en la lista, volvemos a llamar a la función
-        elif selec=="bomba": 
+        elif selec=="bomba": #Un truco que nos permitirá ganar siempre
             if puntosplayer==2 and trampas: print("No hay trampas que puedan con una bomba")
             puntosplayer+=1
             print("HAS GANADO LA RONDA\nPuntos Jugador: ", puntosplayer, "   Puntos CPU: ", puntoscpu) #Mostramos el resultado del versus y el marcador
         else:
-            selec = elecciones.index(selec) # Usamos las posiciones de la lista como referencia. Con ellas haremos un calculo para ver quien ha ganado
-            cpuchoice = elecciones.index(random.choice(elecciones)) # La CPU selecciona un valor aleatorio de la lista
-            if puntosplayer==2 and trampas: #Si estamos a un punto de ganar y la opción de trampas está activada, la CPU hará trampas y cambiará su decisión a una que gana a la nuestra.
-                if not (selec>cpuchoice and cpuchoice > selec-3 or cpuchoice-selec>2 or cpuchoice==selec):
-                    print("(La CPU iba a hacer a trampas pero no le ha hecho falta)")
-                else: 
-                    print("---(La CPU va a hacer trampas)---","\n(Iba a jugar", elecciones[cpuchoice], end=". ")#Informamos de cuando hace trampas
-                    cpuchoice = (selec%4)+1
-                    print("Ha cambiado a", elecciones[cpuchoice], end=")\n")
-            print("\nHas jugado", elecciones[selec])
-            print("La CPU ha jugado", elecciones[cpuchoice])
-            if selec == cpuchoice: #Si elegimos lo mismo es empate
-                print("EMPATE\nPuntos Jugador: ", puntosplayer, "   Puntos CPU: ", puntoscpu)
-            elif selec>cpuchoice and cpuchoice > selec-3 or cpuchoice-selec>2: #Esta formula comprueba si la elección de la CPU esta una o dos posiciones antes en la tabla. Suponiendo que antes de la posición cero vienen la cuatro y la tres (bucle)
-                puntosplayer+=1 #Actualizamos puntos
-                print("HAS GANADO LA RONDA\nPuntos Jugador: ", puntosplayer, "   Puntos CPU: ", puntoscpu) #Mostramos el resultado del versus y el marcador
-            else: #Cualquier otro caso hemos perdido(La elección de la CPU está una o dos posiciones mas alante en la lista)
-                puntoscpu+=1
-                print("HAS PERDIDO LA RONDA\nPuntos Jugador: ", puntosplayer, "   Puntos CPU: ", puntoscpu) 
-                
+            comparacion(puntosplayer, puntoscpu, trampas, selec)
     if puntosplayer == 3:
-        print("\nFELICIDADES, HAS GANADO!!!")
+        print("\nFELICIDADES, HAS GANADO!!!") #Nuestra victoria
     else:
-        print("\nHA GANADO LA CPU")
-    volver_a_jugar(puntosplayer, puntoscpu, trampas)
+        print("\nHA GANADO LA CPU") #Victoria de la CPU
+    volver_a_jugar(puntosplayer, puntoscpu, trampas) #Ahora que ha terminado la partid, llamamos a la función de volver a jugar
+
+def comparacion(puntosplayer, puntoscpu, trampas, selec):
+    selec = elecciones.index(selec) # Usamos las posiciones de la lista como referencia. Con ellas haremos un calculo para ver quien ha ganado
+    cpuchoice = elecciones.index(random.choice(elecciones)) # La CPU selecciona un valor aleatorio de la lista
+    if puntosplayer==2 and trampas: #Si estamos a un punto de ganar y la opción de trampas está activada, la CPU hará trampas y cambiará su decisión a una que gana a la nuestra.
+        if not (selec>cpuchoice and cpuchoice > selec-3 or cpuchoice-selec>2 or cpuchoice==selec): #La CPU va a considerar si le hace falta hacer trampas
+            print("(La CPU iba a hacer a trampas pero no le ha hecho falta)")
+        else: 
+            print("---(La CPU va a hacer trampas)---","\n(Iba a jugar", elecciones[cpuchoice], end=". ")
+            cpuchoice = (selec%4)+1
+            print("Ha cambiado a", elecciones[cpuchoice], end=")\n") #Aquí mostraremos el cambio de elección que realiza la CPU
+        print("\nHas jugado", elecciones[selec])
+        print("La CPU ha jugado", elecciones[cpuchoice])
+        if selec == cpuchoice: #Si elegimos lo mismo es empate
+            print("EMPATE\nPuntos Jugador: ", puntosplayer, "   Puntos CPU: ", puntoscpu)
+        elif selec>cpuchoice and cpuchoice > selec-3 or cpuchoice-selec>2: #Esta formula comprueba si la elección de la CPU esta una o dos posiciones antes en la tabla. Suponiendo que antes de la posición cero vienen la cuatro y la tres (bucle)
+            puntosplayer+=1 #Actualizamos puntos
+            print("HAS GANADO LA RONDA\nPuntos Jugador: ", puntosplayer, "   Puntos CPU: ", puntoscpu) #Mostramos el resultado del versus y el marcador
+        else: #Cualquier otro caso hemos perdido(La elección de la CPU está una o dos posiciones mas alante en la lista)
+            puntoscpu+=1
+            print("HAS PERDIDO LA RONDA\nPuntos Jugador: ", puntosplayer, "   Puntos CPU: ", puntoscpu)                
 
 def volver_a_jugar(puntosplayer, puntoscpu, trampas):
     puntosplayer=0 #Ponemos todos los puntos a cero y volvemos a activar las trampas
