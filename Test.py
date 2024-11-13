@@ -31,12 +31,13 @@ def piedra_papel_tijera(puntosplayer, puntoscpu, trampas):
         print("\nHA GANADO LA CPU") #Victoria de la CPU
     volver_a_jugar(puntosplayer, puntoscpu, trampas) #Ahora que ha terminado la partid, llamamos a la función de volver a jugar
 
-def comparacion(puntosplayer, puntoscpu, trampas, selec):
+def comparacion(puntosplayer:int, puntoscpu:int, trampas:bool, selec:str) -> bool:
     """Genera un número aleatorio entre min y max (ambos incluidos).
 
     Args:
         min (int): El valor mínimo del rango.
         max (int): El valor máximo del rango.
+        
 
     Returns:
         int: El número aleatorio generado.
