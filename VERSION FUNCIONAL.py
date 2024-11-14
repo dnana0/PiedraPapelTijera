@@ -5,6 +5,7 @@ elecciones=["piedra", "spock", "papel", "lagarto", "tijera"] #Esta lista tiene s
 puntosplayer=0 #La puntuación. Ambos empezamos en 0.
 puntoscpu=0
 trampas=True #Creamos una variable que determinará si la CPU hace trampas o no
+lst=[]
 
 def piedra_papel_tijera(puntosplayer, puntoscpu, trampas):
     while puntosplayer < 3 and puntoscpu < 3:
@@ -24,7 +25,7 @@ def piedra_papel_tijera(puntosplayer, puntoscpu, trampas):
             puntosplayer+=1
             print("HAS GANADO LA RONDA\nPuntos Jugador: ", puntosplayer, "   Puntos CPU: ", puntoscpu) #Mostramos el resultado del versus y el marcador
         else:
-            comparacion(puntosplayer, puntoscpu, trampas, selec)
+            puntosplayer, puntoscpu = comparacion(puntosplayer, puntoscpu, trampas, selec)
     if puntosplayer == 3:
         print("\nFELICIDADES, HAS GANADO!!!") #Nuestra victoria
     else:
@@ -41,16 +42,19 @@ def comparacion(puntosplayer, puntoscpu, trampas, selec):
             print("---(La CPU va a hacer trampas)---","\n(Iba a jugar", elecciones[cpuchoice], end=". ")
             cpuchoice = (selec%4)+1
             print("Ha cambiado a", elecciones[cpuchoice], end=")\n") #Aquí mostraremos el cambio de elección que realiza la CPU
-        print("\nHas jugado", elecciones[selec])
-        print("La CPU ha jugado", elecciones[cpuchoice])
-        if selec == cpuchoice: #Si elegimos lo mismo es empate
-            print("EMPATE\nPuntos Jugador: ", puntosplayer, "   Puntos CPU: ", puntoscpu)
-        elif selec>cpuchoice and cpuchoice > selec-3 or cpuchoice-selec>2: #Esta formula comprueba si la elección de la CPU esta una o dos posiciones antes en la tabla. Suponiendo que antes de la posición cero vienen la cuatro y la tres (bucle)
-            puntosplayer+=1 #Actualizamos puntos
-            print("HAS GANADO LA RONDA\nPuntos Jugador: ", puntosplayer, "   Puntos CPU: ", puntoscpu) #Mostramos el resultado del versus y el marcador
-        else: #Cualquier otro caso hemos perdido(La elección de la CPU está una o dos posiciones mas alante en la lista)
-            puntoscpu+=1
-            print("HAS PERDIDO LA RONDA\nPuntos Jugador: ", puntosplayer, "   Puntos CPU: ", puntoscpu)                
+    print("\nHas jugado", elecciones[selec])
+    print("La CPU ha jugado", elecciones[cpuchoice])
+    if selec == cpuchoice: #Si elegimos lo mismo es empate
+        print("EMPATE\nPuntos Jugador: ", puntosplayer, "   Puntos CPU: ", puntoscpu)
+        return puntosplayer, puntoscpu
+    elif selec>cpuchoice and cpuchoice > selec-3 or cpuchoice-selec>2: #Esta formula comprueba si la elección de la CPU esta una o dos posiciones antes en la tabla. Suponiendo que antes de la posición cero vienen la cuatro y la tres (bucle)
+        puntosplayer+=1 #Actualizamos puntos
+        print("HAS GANADO LA RONDA\nPuntos Jugador: ", puntosplayer, "   Puntos CPU: ", puntoscpu) #Mostramos el resultado del versus y el marcador
+        return puntosplayer, puntoscpu
+    else: #Cualquier otro caso hemos perdido(La elección de la CPU está una o dos posiciones mas alante en la lista)
+        puntoscpu+=1
+        print("HAS PERDIDO LA RONDA\nPuntos Jugador: ", puntosplayer, "   Puntos CPU: ", puntoscpu)      
+        return puntosplayer, puntoscpu      
 
 def volver_a_jugar(puntosplayer, puntoscpu, trampas):
     puntosplayer=0 #Ponemos todos los puntos a cero y volvemos a activar las trampas
@@ -60,7 +64,5 @@ def volver_a_jugar(puntosplayer, puntoscpu, trampas):
     if again.casefold()== "s": piedra_papel_tijera(puntosplayer, puntoscpu, trampas) #Si quiere volver a jugar, llamamos a la función del juego
     elif again.casefold()== "n":    print("BYE BYE") # Si no quiere volver a jugar, ponemos un mensaje de despedida. Ya no quedará mas codigo que se vaya a ejecutar.
     else: #Si se introduce algún otro valor, llamamos a la función otra vez para volver a preguntar
-        print("No te he entendido 1212")
         volver_a_jugar(puntosplayer, puntoscpu, trampas)
-
 piedra_papel_tijera(puntosplayer, puntoscpu, trampas) # Llamamos a la función del juego por primera vez. Nos traemos los valores de puntuación y las trampas
