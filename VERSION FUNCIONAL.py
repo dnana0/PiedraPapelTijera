@@ -5,7 +5,6 @@ elecciones=["piedra", "spock", "papel", "lagarto", "tijera"] #Esta lista tiene s
 puntosplayer=0 #La puntuación. Ambos empezamos en 0.
 puntoscpu=0
 trampas=True #Creamos una variable que determinará si la CPU hace trampas o no
-lst=[]
 
 def piedra_papel_tijera(puntosplayer, puntoscpu, trampas):
     while puntosplayer < 3 and puntoscpu < 3:
@@ -15,17 +14,17 @@ def piedra_papel_tijera(puntosplayer, puntoscpu, trampas):
             else:
                 trampas=False
                 print("Has desactivado las trampas")
-        elif selec == "tijeras":   selec="tijera" #para evitar confusiones
-        elif selec not in elecciones and selec != "bomba": 
+        if selec == "tijeras":   selec="tijera" #para evitar confusiones
+        if selec not in elecciones and selec != "bomba": 
             if selec=="surrender": puntoscpu=3
-            else:
+            elif selec!="cheatdisable":
                 print("No te he entendido") # para cualquier valor introducido que no este en la lista, volvemos a llamar a la función
         elif selec=="bomba": #Un truco que nos permitirá ganar siempre
             if puntosplayer==2 and trampas: print("No hay trampas que puedan con una bomba")
             puntosplayer+=1
             print("HAS GANADO LA RONDA\nPuntos Jugador: ", puntosplayer, "   Puntos CPU: ", puntoscpu) #Mostramos el resultado del versus y el marcador
         else:
-            puntosplayer, puntoscpu = comparacion(puntosplayer, puntoscpu, trampas, selec)
+            puntosplayer, puntoscpu = comparacion(puntosplayer, puntoscpu, trampas, selec) #recogemos los datos
     if puntosplayer == 3:
         print("\nFELICIDADES, HAS GANADO!!!") #Nuestra victoria
     else:
@@ -60,7 +59,7 @@ def volver_a_jugar(puntosplayer, puntoscpu, trampas):
     puntosplayer=0 #Ponemos todos los puntos a cero y volvemos a activar las trampas
     puntoscpu=0
     trampas=True
-    again=input("¿Volver a jugar? s/n")
+    again=input("¿Volver a jugar? s/n \n")
     if again.casefold()== "s": piedra_papel_tijera(puntosplayer, puntoscpu, trampas) #Si quiere volver a jugar, llamamos a la función del juego
     elif again.casefold()== "n":    print("BYE BYE") # Si no quiere volver a jugar, ponemos un mensaje de despedida. Ya no quedará mas codigo que se vaya a ejecutar.
     else: #Si se introduce algún otro valor, llamamos a la función otra vez para volver a preguntar
